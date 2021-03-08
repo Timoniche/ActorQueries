@@ -1,18 +1,18 @@
-package actors;
+package ddulaev.akka.actors;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import actors.results.ChildActorResult;
-import actors.results.MasterActorResult;
+import ddulaev.akka.actors.results.ChildActorResult;
+import ddulaev.akka.actors.results.MasterActorResult;
 import akka.actor.AbstractActor;
 
 import akka.actor.Props;
 import akka.actor.ReceiveTimeout;
 import lombok.Getter;
 import scala.concurrent.duration.Duration;
-import search.SearchQuery;
-import search.SearcherDescriptor;
+import ddulaev.akka.search.SearchQuery;
+import ddulaev.akka.search.SearcherDescriptor;
 
 @Getter
 public class MasterActor extends AbstractActor {

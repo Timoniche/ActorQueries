@@ -1,15 +1,15 @@
-package actors;
+package ddulaev.akka.actors;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import actors.results.ChildActorResult;
+import ddulaev.akka.actors.results.ChildActorResult;
 import akka.actor.AbstractActor;
 import lombok.RequiredArgsConstructor;
-import search.SearchQuery;
-import search.SearcherDescriptor;
+import ddulaev.akka.search.SearchQuery;
+import ddulaev.akka.search.SearcherDescriptor;
 
 @RequiredArgsConstructor
 public class ChildActor extends AbstractActor {
@@ -26,7 +26,7 @@ public class ChildActor extends AbstractActor {
         URI uri = URI.create(String.format("http://%s:%d/search?q=%s",
                 searcherDescriptor.getHost(),
                 searcherDescriptor.getPort(),
-                searcherDescriptor.getEngine()));
+                query.getQuery()));
 
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest request = HttpRequest.newBuilder()

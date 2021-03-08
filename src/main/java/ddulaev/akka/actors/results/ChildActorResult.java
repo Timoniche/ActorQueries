@@ -1,8 +1,8 @@
-package actors.results;
+package ddulaev.akka.actors.results;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import search.SearcherDescriptor;
+import ddulaev.akka.search.SearcherDescriptor;
 
 @Data
 @AllArgsConstructor
