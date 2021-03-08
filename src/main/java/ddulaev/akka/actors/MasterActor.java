@@ -10,11 +10,13 @@ import akka.actor.AbstractActor;
 import akka.actor.Props;
 import akka.actor.ReceiveTimeout;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import scala.concurrent.duration.Duration;
 import ddulaev.akka.search.SearchQuery;
 import ddulaev.akka.search.SearcherDescriptor;
 
 @Getter
+@Slf4j
 public class MasterActor extends AbstractActor {
     private final List<SearcherDescriptor> searcherDescriptors;
     private final MasterActorResult result;
@@ -35,7 +37,10 @@ public class MasterActor extends AbstractActor {
         return receiveBuilder()
                 .match(SearchQuery.class, this::sendQueryToChildren)
                 .match(ChildActorResult.class, this::collectChildResult)
-                .match(ReceiveTimeout.class, ignored -> completeResultAndStop())
+                .match(ReceiveTimeout.class, ignored -> {
+                    log.info("Request timeout");
+                    completeResultAndStop();
+                })
                 .build();
     }
 
@@ -48,6 +53,7 @@ public class MasterActor extends AbstractActor {
     }
 
     private void collectChildResult(ChildActorResult childResult) {
+        log.info("response from child '{}'", childResult.getSearcher().getEngine());
         result.getEngineResultMap().put(
                 childResult.getSearcher().getEngine(),
                 childResult.getResponse()

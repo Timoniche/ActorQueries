@@ -10,8 +10,10 @@ import akka.actor.AbstractActor;
 import lombok.RequiredArgsConstructor;
 import ddulaev.akka.search.SearchQuery;
 import ddulaev.akka.search.SearcherDescriptor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
+@Slf4j
 public class ChildActor extends AbstractActor {
     private final SearcherDescriptor searcherDescriptor;
 
@@ -23,10 +25,14 @@ public class ChildActor extends AbstractActor {
     }
 
     private void processQuery(SearchQuery query) {
+        log.info("Query '{}' to engine '{}' with port '{}'", query.getQuery(), searcherDescriptor.getEngine(),
+                searcherDescriptor.getPort());
+
         URI uri = URI.create(String.format("http://%s:%d/search?q=%s",
                 searcherDescriptor.getHost(),
                 searcherDescriptor.getPort(),
                 query.getQuery()));
+        log.debug("URI is '{}'", uri.getQuery());
 
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest request = HttpRequest.newBuilder()
@@ -34,9 +40,9 @@ public class ChildActor extends AbstractActor {
                 .build();
         try {
             String response = client
-                .send(request, HttpResponse.BodyHandlers.ofString())
-                .body()
-                .intern();
+                    .send(request, HttpResponse.BodyHandlers.ofString())
+                    .body()
+                    .intern();
             sender().tell(new ChildActorResult(response, searcherDescriptor), getSelf());
         } catch (Throwable ignored) {
         }

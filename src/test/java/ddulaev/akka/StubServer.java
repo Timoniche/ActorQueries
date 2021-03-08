@@ -39,7 +39,7 @@ public class StubServer implements AutoCloseable {
         stubServer.close();
     }
 
-    private String genResponseBody(String queryName) {
+    public static String genResponseBody(String queryName) {
         int linksCount = 5;
         return IntStream.range(1, 1 + linksCount)
                 .mapToObj(i -> queryName.concat(Integer.toString(i)))
