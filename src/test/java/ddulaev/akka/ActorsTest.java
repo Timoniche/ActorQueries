@@ -29,6 +29,8 @@ public class ActorsTest {
             ActorQueriesService searcher = new ActorQueriesService();
             searcher.addDescriptor(new SearcherDescriptor(LOCAL_HOST, PORT_1, engine1));
             var response = searcher.search(query, ONE_SEC_TIMEOUT);
+            System.out.println(response);
+            System.out.println();
             assertEquals(1, response.size());
             assertTrue(response.containsKey(engine1));
             assertEquals(StubServer.genResponseBody(query), response.get(engine1));
@@ -48,6 +50,8 @@ public class ActorsTest {
                 searcher.addDescriptor(new SearcherDescriptor(LOCAL_HOST, PORT_1, engine1));
                 searcher.addDescriptor(new SearcherDescriptor(LOCAL_HOST, PORT_2, engine2));
                 var response = searcher.search(query, ONE_SEC_TIMEOUT);
+                System.out.println(response);
+                System.out.println();
                 assertEquals(2, response.size());
                 assertTrue(response.containsKey(engine1));
                 assertTrue(response.containsKey(engine2));
@@ -71,6 +75,8 @@ public class ActorsTest {
                     searcher.addDescriptor(new SearcherDescriptor(LOCAL_HOST, PORT_2, engine2));
                     searcher.addDescriptor(new SearcherDescriptor(LOCAL_HOST, PORT_3, engine3));
                     var response = searcher.search(query, ONE_SEC_TIMEOUT);
+                    System.out.println(response);
+                    System.out.println();
                     assertEquals(2, response.size());
                     assertTrue(response.containsKey(engine1));
                     assertFalse(response.containsKey(engine2));
